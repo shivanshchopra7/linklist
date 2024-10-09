@@ -5,6 +5,7 @@ import grabUsername from "@/actions/grabUsername";
 import { redirect } from "next/navigation";
 import UsernameForm from "@/components/forms/UsernameForm";
 import clientPromise from "@/libs/mongoClient"; // Import your MongoClient
+import PageSettingsForm from "@/components/forms/PageSettingsForm";
 
 export default async function AccountPage({ searchParams }) {
   const session = await getServerSession(authOptions);
@@ -20,7 +21,9 @@ export default async function AccountPage({ searchParams }) {
     const page = await db.collection("pages").findOne({ owner: session?.user?.email });
 
     if (page) {
-      return <div>Your page is: /{page.uri}</div>;
+      return (
+        <PageSettingsForm page={page} />
+      )
     }
 
     return (
