@@ -3,14 +3,22 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import { signOut } from "next-auth/react";
 
- export default function LogoutButton() {
+ export default function LogoutButton({
+    className = " flex border p-2 px-4 shadow  text-center w-full   gap-3 items-center justify-center",
+    iconLeft = false,
+    iconClasses = ''
+ }) {
     return (
         <button
         onClick={() => signOut()}
-        className=" FLEX border p-2 px-4 shadow  text-center w-full  flex gap-3 items-center justify-center" > 
-      
+        className={className} > 
+      {iconLeft && (
+        <FontAwesomeIcon icon={faRightFromBracket} className={iconClasses}  />
+      )}
             <span>Sign Out</span>
-            <FontAwesomeIcon icon={faRightFromBracket} className="h-6" />
+            {!iconLeft && (
+        <FontAwesomeIcon icon={faRightFromBracket} className={iconClasses} />
+      )}
             </button>
     )
 }
