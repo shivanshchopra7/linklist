@@ -22,7 +22,7 @@ export default async function AccountPage({ searchParams }) {
 
     if (page) {
       return (
-        <PageSettingsForm page={page} />
+        <PageSettingsForm page={page} user={session.user} />
       )
     }
 

@@ -13,12 +13,15 @@
     "@fortawesome/free-brands-svg-icons": "^6.6.0",
     "@fortawesome/free-solid-svg-icons": "^6.6.0",
     "@fortawesome/react-fontawesome": "^0.2.2",
+    "cloudinary": "^2.5.1",
+    "formidable": "^3.5.1",
     "mongodb": "^6.9.0",
     "mongoose": "^8.6.4",
     "next": "14.2.13",
     "next-auth": "^4.24.8",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "react-hot-toast": "^2.4.1"
   },
   "devDependencies": {
     "eslint": "^8",

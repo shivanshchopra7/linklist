@@ -11,7 +11,7 @@ export default function AppSidebar() {
     const path = usePathname();
 
     return (
-        <nav className="inline-flex mx-auto flex-col text-center text-gray-700 mt-12 gap-4"> 
+        <nav className="inline-flex mx-auto flex-col text-center text-gray-700 mt-4 gap-4"> 
         <Link href={'/account'} className={"flex gap-4  p-2" + (path === '/account' ? ' text-blue-500 font-bold' : '')}>
         <FontAwesomeIcon fixedWidth={true} icon={faFileLines} className="h-6 w-6 " />
         <span className="font-semibold">My Page</span>

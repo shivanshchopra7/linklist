@@ -11,6 +11,7 @@ import LogoutButton from "@/components/buttons/LogoutButton";
 import { redirect } from "next/navigation";
 import { headers } from "next/headers";
 import AppSidebar from "@/components/layout/AppSidebar";
+import { Toaster } from "react-hot-toast";
 const geistSans = localFont({
   src: "../fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -41,12 +42,18 @@ export default async function AppLayout({ children, ...rest }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <Toaster />
       <main className="flex min-h-screen ">
         
          <aside className="bg-white w-48 shadow p-4">
           
-                <div className='rounded-full overflow-hidden aspect-square w-24 mx-auto '>
+         <div className ="flex flex-col gap-4 items-center">
+           <div className='rounded-full flex-col  overflow-hidden aspect-square w-24 mx-auto '>
                     <Image src={session.user.image} width={256} height={256} alt={'avatar'} />
+                   
+                </div>
+                
+                <h1 className="text-center text-2xl font-bold text-gray-900">{session.user.name}</h1>
                 </div>
            <div className="text-center">
          <AppSidebar />
