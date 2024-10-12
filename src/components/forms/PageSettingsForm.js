@@ -7,6 +7,7 @@ import SubmitButton from "../buttons/SubmitButton";
 import savePageSettings from "@/actions/pageActions";
 import toast from "react-hot-toast";
 import { useState } from "react";
+import SectionBox from "../layout/SectionBox";
 
 export default function PageSettingsForm({ page, user }) {
   // Moved useState outside of saveBaseSettings
@@ -35,9 +36,10 @@ function handleSubmit(ev) {
 }
 
   return (
-    <div className="-m-4">
+    <div >
+      <SectionBox >
       <form action={saveBaseSettings}>
-        <div style={{ backgroundColor: bgColor }} className="flex min-h-[200px] justify-center items-center py-14">
+        <div style={{ backgroundColor: bgColor }} className="flex min-h-[200px] justify-center -m-4 items-center py-4">
           <div>
             <RadioTogglers
               defaultValue={page.bgType}
@@ -124,6 +126,8 @@ function handleSubmit(ev) {
           </div>
         </div>
       </form>
+      </SectionBox>
+  
     </div>
   );
 }
