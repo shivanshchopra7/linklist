@@ -61,9 +61,9 @@ export default async function AppLayout({ children, ...rest }) {
         
          </aside>
           <div className="grow">
-            <div className="bg-white m-8 p-4 shadow ">
+ 
             {children}
-            </div>
+            
           
           </div>
           
