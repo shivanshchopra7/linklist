@@ -9,19 +9,22 @@ import { savePageButtons } from "@/actions/pageActions";
 import toast from "react-hot-toast";
 import { ReactSortable } from "react-sortablejs";
 
+
+
+export const allButtons = [
+    { key: 'email', label: 'e-mail', icon: faEnvelope, placeholder: 'name@example.com' },
+    { key: 'mobile', label: 'mobile', icon: faMobile, placeholder: '+1234567890' },
+    { key: 'instagram', label: 'instagram', icon: faInstagram, placeholder: 'username' },
+    { key: 'whatsapp', label: 'whatsapp', icon: faWhatsapp, placeholder: '+1234567890' },
+    { key: 'facebook', label: 'facebook', icon: faFacebook, placeholder: 'username' },
+    { key: 'linkedin', label: 'linkedin', icon: faLinkedin, placeholder: 'username' },
+    { key: 'discord', label: 'discord', icon: faDiscord, placeholder: 'username' },
+    { key: 'youtube', label: 'youtube', icon: faYoutube, placeholder: 'Channel Link' },
+    { key: 'github', label: 'github', icon: faGithub, placeholder: 'username' },
+    { key: 'telegram', label: 'telegram', icon: faTelegram },
+];
 export default function PageButtonsForm({ user, page }) {
-    const allButtons = [
-        { key: 'email', label: 'e-mail', icon: faEnvelope, placeholder: 'name@example.com' },
-        { key: 'mobile', label: 'mobile', icon: faMobile, placeholder: '+1234567890' },
-        { key: 'instagram', label: 'instagram', icon: faInstagram, placeholder: 'username' },
-        { key: 'whatsapp', label: 'whatsapp', icon: faWhatsapp, placeholder: '+1234567890' },
-        { key: 'facebook', label: 'facebook', icon: faFacebook, placeholder: 'username' },
-        { key: 'linkedin', label: 'linkedin', icon: faLinkedin, placeholder: 'username' },
-        { key: 'discord', label: 'discord', icon: faDiscord, placeholder: 'username' },
-        { key: 'youtube', label: 'youtube', icon: faYoutube, placeholder: 'Channel Link' },
-        { key: 'github', label: 'github', icon: faGithub, placeholder: 'username' },
-        { key: 'telegram', label: 'telegram', icon: faTelegram },
-    ];
+
 
     // Ensure page.buttons exists before trying to access it
     const pageButtons = page?.buttons || {};
