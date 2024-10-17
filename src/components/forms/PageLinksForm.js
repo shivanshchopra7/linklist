@@ -23,6 +23,46 @@ export default function PageLinksForm({page,user}) {
         });
     }
 
+    async function upload(ev, callbackFn) {
+        const file = ev.target.files[0];
+        if (file) {
+            const data = new FormData();
+            data.set('file', file);
+
+            try {
+                const response = await fetch('/api/upload', {
+                    method: 'POST',
+                    body: data,
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || 'Upload failed');
+                }
+
+                const result = await response.json();
+                callbackFn(result.link); // Call the callback with the uploaded image URL
+                toast.success('Icon uploaded successfully!');
+            } catch (error) {
+                toast.error(`Upload failed: ${error.message}`);
+            }
+        }
+    }
+
+    function handleUpload(ev, linkKey) {
+        upload(ev, (uploadedImageUrl) => {
+            setLinks(prevLinks => {
+                const newLinks = [...prevLinks];
+                newLinks.forEach((link) => {
+                    if (link.key === linkKey) {
+                        link.icon = uploadedImageUrl;
+                    }
+                });
+                return newLinks;
+            });
+        });
+    }
+
     function addNewLink() {
         setLinks(prev => [
             ...prev, 
@@ -38,14 +78,13 @@ export default function PageLinksForm({page,user}) {
 
     async function save(ev) {
         ev.preventDefault(); // Prevent default form submission behavior
-    
         await savePageLinks(links);
-   toast.success('Links Added!')
+        toast.success('Links Added!');
     }
 
     function removeLink(linkKeyToRemove) {
         setLinks(prevLinks => [...prevLinks.filter(link => link.key !== linkKeyToRemove)]);
-        toast.success('Link Removed!')
+        toast.success('Link Removed!');
     }
 
     return (
@@ -68,28 +107,29 @@ export default function PageLinksForm({page,user}) {
                                         <FontAwesomeIcon icon={faLink} />
                                     </div>
                                     <div className="mt-2 mb-2">
-                                        <label type="button" className="border rounded justify-center flex items-center  gap-1  p-3 mb-2">
+                                        {/* Assigning unique IDs to input and linking it to the label */}
+                                        <input type="file" id={'icon' + l.key} className="hidden" onChange={ev => handleUpload(ev, l.key)} />
+                                        <label htmlFor={'icon' + l.key} className="border rounded justify-center flex items-center  gap-1  p-3 mb-2 cursor-pointer">
                                             <FontAwesomeIcon icon={faCloudArrowUp} />
-                                            Change Icon
+                                            <span>Change Icon</span>
                                         </label>
                                     </div>
                                     
-                                        <button
+                                    <button
                                         onClick={() => removeLink(l.key)}
-                                        type="button " className="rounded bg-gray-300 py-2 px-2 mb-2 h-full flex gap-1 items-center"><FontAwesomeIcon icon={faTrash} />
+                                        type="button" className="rounded bg-gray-300 py-2 px-2 mb-2 h-full flex gap-1 items-center">
+                                        <FontAwesomeIcon icon={faTrash} />
                                         <span>Remove this link</span>
-                                        </button>
-                                
+                                    </button>
                                 </div>
                                 <div className="grow">
-                                <label className="input-label">Title:</label>
+                                    <label className="input-label">Title:</label>
                                     <input value={l.title} onChange={ev => handleLinkChange(l.key, 'title', ev)} type="text" placeholder="Title" />
                                     <label className="input-label">Subtitle:</label>
                                     <input value={l.subtitle} onChange={ev => handleLinkChange(l.key, 'subtitle', ev)} type="text" placeholder="Subtitle (optional)" />
                                     <label className="input-label">Url:</label>
                                     <input value={l.url} onChange={ev => handleLinkChange(l.key, 'url', ev)} type="text" placeholder="URL" />
                                 </div>
-                               
                             </div>
                         ))}
                     </ReactSortable>

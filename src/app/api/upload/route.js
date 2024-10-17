@@ -1,34 +1,47 @@
-// route.js or wherever your /api/upload logic is
-import { NextResponse } from 'next/server';
-import cloudinary from 'cloudinary';
-import { v2 as cloudinaryV2 } from 'cloudinary';
-
-// Set up Cloudinary configuration
-cloudinaryV2.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
-});
+import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
+import uniqid from "uniqid";
 
 export async function POST(req) {
   try {
-    // Get the file from the request
     const formData = await req.formData();
-    const file = formData.get('file');
 
-    if (!file) {
-      return NextResponse.json({ message: 'No file provided' }, { status: 400 });
+    if (formData.has('file')) {
+      const file = formData.get('file');
+
+      // Corrected region
+      const s3Client = new S3Client({
+        region: 'eu-north-1', // Correct region for Stockholm
+        credentials: {
+          accessKeyId: process.env.S3_ACCESS_KEY,
+          secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
+        },
+      });
+
+      const randomId = uniqid();
+      const ext = file.name.split('.').pop();
+      const newFileName = `${randomId}.${ext}`;
+      const bucketName = process.env.BUCKET_NAME;
+
+      const chunks = [];
+      for await (const chunk of file.stream()) {
+        chunks.push(chunk);
+      }
+
+      await s3Client.send(new PutObjectCommand({
+        Bucket: bucketName,
+        Key: newFileName,
+        ACL: 'public-read',
+        Body: Buffer.concat(chunks),
+        ContentType: file.type,
+      }));
+
+      const link = `https://${bucketName}.s3.eu-north-1.amazonaws.com/${newFileName}`;
+      return Response.json({ link });
+    } else {
+      return Response.json({ error: "No file provided" }, { status: 400 });
     }
-
-    // Upload image to Cloudinary
-    const uploadResult = await cloudinaryV2.uploader.upload(file.path, {
-      folder: 'backgrounds', // You can change the folder
-    });
-
-    // Return the uploaded image URL
-    return NextResponse.json({ url: uploadResult.secure_url });
   } catch (error) {
-    console.error('Upload error:', error);
-    return NextResponse.json({ message: 'Failed to upload image' }, { status: 500 });
+    console.error("Error during file upload:", error);
+    return Response.json({ error: "Failed to upload the file." }, { status: 500 });
   }
 }

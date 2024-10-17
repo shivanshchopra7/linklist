@@ -9,6 +9,7 @@ const pageSchema = new Schema({
     bgType: { type: String, default: 'color' },
     bgColor: { type: String, default: '#000' },
     buttons: { type: Object, default: {} },
+    bgImage: { type: String, default: '' },
     links: { type: Array, default: [] },  // Change Object to Array
 }, { timestamps: true });
 

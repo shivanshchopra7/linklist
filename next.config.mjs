@@ -4,6 +4,9 @@ const nextConfig = {
         remotePatterns: [
             {
                 hostname: '*.googleusercontent.com',
+            },
+            {
+                hostname: 'linklist-project.s3.eu-north-1.amazonaws.com',
             }
         ]
     }

@@ -13,7 +13,8 @@ export default function PageSettingsForm({ page, user }) {
   // Moved useState outside of saveBaseSettings
   const [bgType, setBgType] = useState(page.bgType);
   const [bgColor, setBgColor] = useState(page.bgColor);
-
+  const [bgImage, setBgImage] = useState(page.bgImage);
+const [avatar, setAvatar] = useState(user?.image);
   async function saveBaseSettings(formData) {
     const result = await savePageSettings(formData);
     if (result) {
@@ -21,25 +22,55 @@ export default function PageSettingsForm({ page, user }) {
     }
   }
 
-function handleSubmit(ev) {
-    const file = ev.target.files?.[0];
-    if(file) {
-        // const data = newFormData;
-        // data.set('file', file);
-        fetch('/api/upload', {
-            method: 'POST',
-        //   body: data,
-        }).then(response => {response.json().then(link => {
-            console.log(link); 
-        })})
+
+async function upload(ev, callbackFn) {
+  const file = ev.target.files[0];
+  console.log(file);
+  if (file) {
+    const data = new FormData();
+    data.set('file', file);
+    try {
+      const response = await fetch('/api/upload', {
+        method: 'POST',
+        body: data,
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Upload failed');
+      }
+
+      const result = await response.json();
+    //  setBgImage(result.link);
+callbackFn(result.link);
+
+      toast.success('File uploaded successfully!');
+    } catch (error) {
+      console.error('Error during file upload:', error);
+      toast.error(`Upload failed: ${error.message}`);
     }
+  }
 }
 
+  async function handleCoverImageChange(ev) {
+   await upload(ev, link => {
+    setBgImage(link);
+   })
+  }
+  
+
+  async function handleAvatarImageChange(ev) {
+    await upload(ev, link => {
+      setAvatar(link);
+     })
+  }
   return (
     <div >
       <SectionBox >
       <form action={saveBaseSettings}>
-        <div style={{ backgroundColor: bgColor }} className="flex min-h-[200px] justify-center -m-4 items-center py-4">
+        <div 
+        style={bgType === 'color' ? {backgroundColor: bgColor} : {backgroundImage: `url(${bgImage})`}} 
+        className="flex min-h-[200px] justify-center -m-4 items-center py-4 bg-cover bg-center">
           <div>
             <RadioTogglers
               defaultValue={page.bgType}
@@ -65,7 +96,8 @@ function handleSubmit(ev) {
                 <div className="flex justify-center">
                   
                   <label className="bg-white shadow px-4 py-2 mt-2 flex gap-2" >
-                  <input type="file" onChange={handleSubmit} className="hidden" />
+                    <input type="hidden" name="bgImage" value={bgImage} />  
+                  <input type="file" onChange={handleCoverImageChange} className="hidden" />
                   <div className="flex gap-2 items-center cursor-pointer">
                     <FontAwesomeIcon icon={faCloudArrowUp} />
                   <span>Choose Image</span>
@@ -77,20 +109,24 @@ function handleSubmit(ev) {
           </div>
         </div>
         <div className="flex justify-center -mb-12">
-            <div className="relative -top-8">
-            <Image
-            className="rounded-full  border-white border-4 shadow shadow-black/50"
-            src={user?.image}
+            <div className="relative -top-8 w-[128px] h-[128px]">
+              <div className="overflow-hidden h-full rounded-full border-4 border-white shadow shadow-black/50">
+              <Image
+            className="w-full h-full object-cover"
+            src={avatar}
             alt="avatar"
             width={128}
             height={128}
           />
+              </div>
+          
           <label 
           htmlFor="avatarIn"
-          className="absolute -bottom-1 right-0 bg-white p-1 rounded-full shadow shadow-black/50 flex gap-1 items-cente cursor-pointer aspect-square">
+          className="absolute bottom-0 right-0 bg-white p-1 rounded-full shadow shadow-black/50 flex gap-1 items-cente cursor-pointer aspect-square">
             <FontAwesomeIcon icon={faCloudArrowUp} size={'lg'} />
           </label>
-          <input id="avatarIn" type="file" className="hidden" />
+          <input id="avatarIn" type="file" onChange={handleAvatarImageChange} className="hidden" />
+          <input type="hidden" name="avatar" value={avatar} />
             </div>
         
         </div>
