@@ -1,5 +1,6 @@
 import { Page } from "@/models/Page";
 import { User } from "@/models/User";
+import { Event } from "@/models/Event";
 import { faEnvelope, faLink, faLocationDot, faMobile, faPhone } from "@fortawesome/free-solid-svg-icons";
 import { faInstagram, faWhatsapp, faFacebook, faLinkedin, faDiscord, faYoutube, faGithub, faTelegram } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -39,20 +40,11 @@ export default async function UserPage({ params }) {
     try {
         await mongoose.connect(process.env.MONGODB_URI);
         const page = await Page.findOne({ uri });
-
-        // Check if page was found
-        if (!page) {
-            console.error("No page found for the given URI:", uri);
-            return <div>Error: Page not found</div>; // Render error message for user
-        }
-
         const user = await User.findOne({ email: page.owner });
+        await Event.create({ type: 'view', uri:uri, page:uri });
 
-        // Check if user was found
-        if (!user) {
-            console.error("No user found for the owner:", page.owner);
-            return <div>Error: User not found</div>; // Render error message for user
-        }
+      
+
 
         return (
             <div className="bg-blue-950 text-white min-h-screen pb-10">
@@ -80,7 +72,9 @@ export default async function UserPage({ params }) {
 
                 <div className="max-w-xl md:mt-8 grid gap-6 mx-auto px-8">
                     {page.links.map(link => (
-                        <Link key={link.url} href={link.url} target="_blank" className="bg-indigo-800 rounded-lg border p-2 flex">
+                        <Link
+                        ping={process.env.URL+'api/click?url=' + btoa(link.url) + '&page=' +page.uri}
+                        key={link.url} href={link.url} target="_blank" className="bg-indigo-800 rounded-lg border p-2 flex">
                             <div className="relative -left-4 overflow-hidden ">
                                 <div className="bg-blue-700 border border-white rounded-full aspect-square p-4 w-16 h-16 grow flex items-center justify-center">
                                     {link.icon ? (

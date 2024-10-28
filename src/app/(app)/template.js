@@ -48,9 +48,9 @@ mongoose.connect(process.env.MONGODB_URI);
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Toaster />
-      <main className="flex min-h-screen ">
+      <main className="md:flex min-h-screen ">
         
-         <aside className="bg-white w-48 pt-6 shadow p-4 ">
+         <aside className="bg-white w-48 pt-6 shadow fixed md:static left-0 top-0 bottom-0  z-20 p-4 ">
           <div className="sticky top-0 pt-2">
 
 
