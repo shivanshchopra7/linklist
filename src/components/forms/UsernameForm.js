@@ -28,8 +28,8 @@ export default function UsernameForm({ desiredUsername }) {
 
     return (
         <form onSubmit={handleSubmit}> {/* Use onSubmit instead of action */}
-            <h1 className="text-4xl font-bold text-center mb-2">Grab your username</h1>
-            <p className="text-center mb-6 text-gray-500">
+            <h1 className="text-4xl font-bold text-center mb-2 text-white">Grab your username</h1>
+            <p className="text-center mb-6 text-white">
                 Choose a username to get started
             </p>
             <div className="max-w-xs mx-auto w-full ">
@@ -41,7 +41,7 @@ export default function UsernameForm({ desiredUsername }) {
                     placeholder="username"
                 />
                 {taken && (
-                    <div className="text-center bg-red-200 border border-red-500 p-2 mb-2">
+                    <div className="text-center text-white bg-red-200 border border-red-500 p-2 mb-2">
                         This username is taken
                     </div>
                 )}

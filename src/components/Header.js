@@ -9,32 +9,40 @@ export default async function Header() {
   const session = await getServerSession(authOptions);
 
     return (
-        <header className="bg-white border-b py-4 w-full">
-        <div className="max-w-4xl flex justify-between mx-auto px-6 ">
+        <header className=" py-4 w-full">
+        <div className="max-w-full items-center  flex justify-between mx-auto px-32 ">
         <div className="flex items-center gap-6 px-8">
 <Link href={'/'} className="font-bold flex items-center gap-2">
-<FontAwesomeIcon icon={faLink} className="h-4 text-blue-500"/>
-<span>LinkList</span></Link>
-  <nav className="flex gap-4 text-slate-500 text-sm items-center">
+
+<span class=" font-bold text-white text-2xl px-2 lowercase tracking-tight transform -rotate-3">
+    droppp.link
+  </span></Link>
+  {/* <nav className="flex gap-4 text-slate-500 text-sm items-center">
     <Link href={'/about'}>About</Link>
     <Link href={'/pricing'}>Pricing</Link>
     <Link href={'/contact'}>Contact</Link>
-  </nav>
+  </nav> */}
         </div>
   <div>
-    <nav className="flex  gap-4 text-sm text-slate-500 items-center">
+    <nav className="flex  gap-4 text-sm text-white-500 items-center">
      {!!session && (
       <>
-      <Link href={'/account'} className="text-nowrap">Hello, {session?.user?.name}</Link> 
-      <LogoutButton/>
+      <Link href={'/account'} >
+      <button className="items-center justify-center border px-6 py-2 mr-4 rounded-full text-md text-center text-white border-white/30">
+      Go to dashboard &rarr;
+      </button>
+      </Link> 
+     
       </>
       
      )}
      
       {!session && (
         <>
-        <Link href={'/login'}>Sign In</Link>
-        <Link href={'/login'}>Sign Up</Link>
+        <Link href={'/login'}>
+        <button className="items-center justify-center border px-6 py-2 rounded-full text-md text-center text-white border-white/30">login</button>
+         </Link>
+   
         </>
       )}
     

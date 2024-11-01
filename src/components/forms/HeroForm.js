@@ -37,15 +37,32 @@ console.log(input.value);
 // console.log({username});
    }
     return(
-        <form
+      <div className="flex justify-center items-center  ">
+      <form
         onSubmit={handleSubmit}
-        className="inline-flex items-center shadow-lg shadow-gray-700/20">
-  <span className="bg-white py-4 pl-4">linklist.to/</span>
-  <input  type="text" className="py-4" placeholder="username"/>
-  <button 
-  
-  type="submit" className="bg-blue-500 text-white py-4 px-6">Join for Free</button>
-</form>
+        className="flex items-center max-w-lg w-full rounded-full shadow-xl bg-black  shadow-purple-700/40 py-3 px-8"
+        style={{
+          boxShadow: '0px 0px 30px 15px rgba(128, 0, 128, 0.5)'  
+        }}
+      >
+        <span className="text-white font-semibold text-lg mr-1">droppp.link/</span>
+        
+        <input
+  type="text"
+  placeholder="your-username"
+  className="custom-input" // Add the custom class here
+/>
+      
+        <button
+          type="submit"
+          className="bg-purple-900 text-white font-semibold rounded-full py-2 px-8 ml-4 text-md hover:bg-purple-800 transition-colors duration-200"
+        >
+          Claim
+        </button>
+      </form>
+    </div>
+    
+    
     )
 }
 

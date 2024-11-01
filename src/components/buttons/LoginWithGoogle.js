@@ -8,7 +8,7 @@ export default function LoginWithGoogle() {
     return(
         <button
         onClick={() => signIn('google') }
-        className="bg-white shadow  text-center w-full py-4 flex gap-3 items-center justify-center" > 
+        className="bg-white rounded-full shadow  text-center w-full py-4 flex gap-3 items-center justify-center" > 
         <FontAwesomeIcon icon={faGoogle} className="h-6" />
             <span>Sign In with Google</span> 
             </button>

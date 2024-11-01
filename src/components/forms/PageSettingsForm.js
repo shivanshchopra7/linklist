@@ -133,6 +133,7 @@ callbackFn(result.link);
         <div className="p-4">
           <label className="input-label" htmlFor="nameIn">Display Name</label>
           <input
+          className="input"
             type="text"
             id="nameIn"
             name="displayName"
@@ -142,6 +143,7 @@ callbackFn(result.link);
           <label className="input-label" htmlFor="locationIn">Location</label>
           <input
             type="text"
+            className="input"
             name="location"
             defaultValue={page.location}
             id="locationIn"
@@ -149,6 +151,7 @@ callbackFn(result.link);
           />
           <label className="input-label" htmlFor="bioIn">Bio</label>
           <textarea
+          className="input"
             name="bio"
             defaultValue={page.bio}
             id="bioIn"

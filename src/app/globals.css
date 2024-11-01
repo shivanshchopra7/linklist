@@ -3,12 +3,17 @@
 @tailwind utilities;
 
 body{
-  @apply bg-gray-100
+  @apply bg-[#0d0d0d];
 }
 
 
-input[type="text"], textarea{
-  @apply bg-gray-100 w-full block py-2 px-2 mb-2 ;
+input[type="text"]:not(.custom-input),
+textarea {
+  @apply bg-gray-100 w-full block py-2 px-2 mb-2;
+}
+
+.custom-input {
+  @apply bg-transparent text-white placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-purple-600 rounded-full text-lg px-2 py-1 w-full;
 }
 
 label.input-label {

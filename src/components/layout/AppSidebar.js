@@ -22,10 +22,10 @@ export default function AppSidebar() {
         </Link>
        
             <LogoutButton iconLeft={true} className="flex gap-4 p-2 items-center text-gray-700" iconClasses="w-6 h-6"  />
-            <Link href={'/'} className="flex items-center gap-4 text-sm text-gray-500 border-t pt-4">
+            {/* <Link href={'/'} className="flex items-center gap-4 text-sm text-gray-500 border-t pt-4">
             <FontAwesomeIcon icon={faArrowLeft} className={'w-4 h-4 '} />
             <span>Back to website</span>
-            </Link>
+            </Link> */}
        </nav>
     )
 }
