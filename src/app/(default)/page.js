@@ -20,7 +20,7 @@ export default async function Home() {
             </span>
           </h1>
           <h2 className="text-lg text-white text-center">
-            Simply put, it's the coolest link in bio you'll ever drop as a creator ✨
+            Simply put, it&apos;s the coolest link in bio you&apos;ll ever drop as a creator ✨
           </h2>
         </div>
 
@@ -62,7 +62,7 @@ export default async function Home() {
                 Easily Manage All Your Links in One Place
               </h3>
               <p className="text-gray-400">
-                Create a seamless <br /> experience for followers <br /> to   find  what they're <br /> looking for.
+                Create a seamless <br /> experience for followers <br /> to   find  what they&apos;re <br /> looking for.
               </p>
             </div>
           </div>
