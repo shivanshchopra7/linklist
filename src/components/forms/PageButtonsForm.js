@@ -64,7 +64,7 @@ export default function PageButtonsForm({ user, page }) {
     return (
         <SectionBox>
             <form action={saveButtons}>
-                <h2 className="text-2xl font-bold mb-4">Buttons</h2>
+                <h2 className="text-2xl text-center text-white font-bold mb-4">Buttons</h2>
 
                 <ReactSortable
                     list={activeButtons} 
@@ -74,15 +74,16 @@ export default function PageButtonsForm({ user, page }) {
                 >
                     {activeButtons.map((b) => (
                         <div key={b.key} className="mb-4 flex items-center">
-                            <div className="w-48 capitalize flex p-2 h-full gap-2 items-center">
-                                <FontAwesomeIcon icon={faGripLines} className="cursor-pointer text-gray-400 handle" />
-                                <FontAwesomeIcon icon={b.icon} />
-                                <span className="capitalize">{b.label} :</span>
+                            <div className="w-48 capitalize flex  h-full gap-2 items-center">
+                                <FontAwesomeIcon icon={faGripLines} className="cursor-pointer text-white handle" />
+                                <FontAwesomeIcon icon={b.icon} className="text-white" />
+                                <span className="capitalize text-white">{b.label} :</span>
                             </div>
 
                             <input
                                 placeholder={b.placeholder}
                                 name={b.key}
+                                className="max-w-2xl rounded -ml-16"
                                 defaultValue={pageButtons[b.key] || ''}
                                 type="text"
                                 style={{ marginBottom: '0' }}
@@ -90,14 +91,14 @@ export default function PageButtonsForm({ user, page }) {
 
                             <button
                                 onClick={() => removeButton(b)}
-                                type="button" className="py-2 px-4 bg-gray-300 cursor-pointer">
+                                type="button" className="py-2 px-4 ml-2 bg-gray-300 rounded cursor-pointer">
                                 <FontAwesomeIcon icon={faTrash} />
                             </button>
                         </div>
                     ))}
                 </ReactSortable>
 
-                <div className="flex flex-wrap gap-2 mt-4 border-y py-4">
+                <div className="flex flex-wrap gap-2 mt-4  py-4">
                     {availableButtons.map((b) => (
                         <button
                             type="button"

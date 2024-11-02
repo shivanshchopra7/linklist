@@ -89,18 +89,25 @@ export default function PageLinksForm({page,user}) {
 
     return (
         <SectionBox>
-            <form onSubmit={save}>
-                <h2 className="text-2xl font-bold mb-4">Links</h2>
-                <button type="button" onClick={addNewLink} className="text-blue-500 text-lg flex gap-2 items-center cursor-pointer">
-                    <FontAwesomeIcon className="bg-blue-500 text-white p-1 rounded-full aspect-square" icon={faPlus} />
-                    <span>Add new link</span>
-                </button>
+            <form onSubmit={save} className="">
+       
+            <div className="text-center mb-4">
+    <h2 className="text-2xl font-bold text-white">Links</h2>
+    <button 
+        type="button" 
+        onClick={addNewLink} 
+        className="text-blue-500 text-lg flex gap-2 items-center cursor-pointer mx-auto mt-4">
+        <FontAwesomeIcon className="bg-blue-500 text-white p-1 rounded-full aspect-square" icon={faPlus} />
+        <span>Add new link</span>
+    </button>
+</div>
+
                 <div className="">
                     <ReactSortable list={links} setList={setLinks}>
                         {links.map(l => (
                             <div key={l.key} className="mt-8 flex gap-2 items-center">
                                 <div>
-                                    <FontAwesomeIcon className="text-gray-700 mr-2 cursor-move" icon={faGripLines} />
+                                    <FontAwesomeIcon className="text-white mr-2 cursor-move" icon={faGripLines} />
                                 </div>
                                 <div className="text-center">
                                     <div className="bg-gray-300 p-4 rounded-full inline-block">
@@ -110,8 +117,8 @@ export default function PageLinksForm({page,user}) {
                                         {/* Assigning unique IDs to input and linking it to the label */}
                                         <input type="file" id={'icon' + l.key} className="hidden" onChange={ev => handleUpload(ev, l.key)} />
                                         <label htmlFor={'icon' + l.key} className="border rounded justify-center flex items-center  gap-1  p-3 mb-2 cursor-pointer">
-                                            <FontAwesomeIcon icon={faCloudArrowUp} />
-                                            <span>Change Icon</span>
+                                            <FontAwesomeIcon icon={faCloudArrowUp} className="mr-2" />
+                                            <span className="text-white">Change Icon</span>
                                         </label>
                                     </div>
                                     
@@ -122,19 +129,19 @@ export default function PageLinksForm({page,user}) {
                                         <span>Remove this link</span>
                                     </button>
                                 </div>
-                                <div className="grow">
+                                <div className="grow justify-center items-center ">
                                     <label className="input-label">Title:</label>
-                                    <input value={l.title} onChange={ev => handleLinkChange(l.key, 'title', ev)} type="text" placeholder="Title" />
+                                    <input value={l.title} onChange={ev => handleLinkChange(l.key, 'title', ev)} className="max-w-2xl rounded" type="text" placeholder="Title" />
                                     <label className="input-label">Subtitle:</label>
-                                    <input value={l.subtitle} onChange={ev => handleLinkChange(l.key, 'subtitle', ev)} type="text" placeholder="Subtitle (optional)" />
+                                    <input value={l.subtitle} onChange={ev => handleLinkChange(l.key, 'subtitle', ev)} className="max-w-2xl" type="text" placeholder="Subtitle (optional)" />
                                     <label className="input-label">Url:</label>
-                                    <input value={l.url} onChange={ev => handleLinkChange(l.key, 'url', ev)} type="text" placeholder="URL" />
+                                    <input value={l.url} onChange={ev => handleLinkChange(l.key, 'url', ev)} className="max-w-2xl" type="text" placeholder="URL" />
                                 </div>
                             </div>
                         ))}
                     </ReactSortable>
                 </div>
-                <div className="border-t pt-4 mt-4 max-w-xs mx-auto">
+                <div className=" pt-4 mt-4 max-w-xs mx-auto">
                     <SubmitButton>
                         <FontAwesomeIcon icon={faSave} />
                         <span>Save</span>

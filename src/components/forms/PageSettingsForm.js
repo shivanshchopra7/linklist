@@ -109,6 +109,7 @@ callbackFn(result.link);
           </div>
         </div>
         <div className="flex justify-center -mb-12">
+          
             <div className="relative -top-8 w-[128px] h-[128px]">
               <div className="overflow-hidden h-full rounded-full border-4 border-white shadow shadow-black/50">
               <Image
@@ -130,10 +131,11 @@ callbackFn(result.link);
             </div>
         
         </div>
-        <div className="p-4">
-          <label className="input-label" htmlFor="nameIn">Display Name</label>
+        <div className="p-4 justify-center items-center max-w-xl mx-auto">
+        <h2 className="text-2xl font-bold mb-2 text-center mt-4 text-white ">Enter Your info</h2>
+          <label className="input-label " htmlFor="nameIn">Display Name</label>
           <input
-          className="input"
+          className="input max-w-md rounded-xl text-center text-xl mb-2"
             type="text"
             id="nameIn"
             name="displayName"
@@ -143,7 +145,7 @@ callbackFn(result.link);
           <label className="input-label" htmlFor="locationIn">Location</label>
           <input
             type="text"
-            className="input"
+            className="input max-w-md rounded-xl text-center text-xl mb-2"
             name="location"
             defaultValue={page.location}
             id="locationIn"
@@ -151,13 +153,13 @@ callbackFn(result.link);
           />
           <label className="input-label" htmlFor="bioIn">Bio</label>
           <textarea
-          className="input"
+          className="input max-w-md rounded-xl text-center text-xl mb-2"
             name="bio"
             defaultValue={page.bio}
             id="bioIn"
             placeholder="Your bio goes here.."
           />
-          <div className="max-w-[200px] mx-auto mt-4">
+          <div className="max-w-[200px] mx-auto mt-6">
             <SubmitButton>
               <FontAwesomeIcon icon={faSave} />
               <span>Save</span>
