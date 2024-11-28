@@ -10,11 +10,11 @@ export default async function Header() {
 
     return (
         <header className=" py-4 w-full bg-[#0D0D0D]">
-        <div className="max-w-full items-center  flex justify-between mx-auto md:px-32 ">
-        <div className="flex items-center gap-6 px-8">
+        <div className="max-w-full items-center  flex justify-between mx-auto md:px-32 px-8">
+        <div className="flex items-center gap-6 md:px-8">
 <Link href={'/'} className="font-bold flex items-center gap-2">
 
-<span class=" font-bold text-white text-2xl px-2 lowercase tracking-tight transform -rotate-3">
+<span class=" font-bold text-white text-2xl md:px-2 lowercase tracking-tight transform -rotate-3">
     droppp.link
   </span></Link>
   {/* <nav className="flex gap-4 text-slate-500 text-sm items-center">
