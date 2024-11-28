@@ -1,153 +1,205 @@
-'use client'; 
-import { useState } from "react";
+'use client';
+import { useState, useRef, useEffect } from "react";
 import { ReactSortable } from "react-sortablejs";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCloudArrowUp, faGripLines, faLink, faPlus, faSave, faTrash } from "@fortawesome/free-solid-svg-icons";
-import SubmitButton from "../buttons/SubmitButton";
-import SectionBox from "../layout/SectionBox";
-import { savePageLinks } from "@/actions/pageActions";
+import { faEllipsisV, faTrash, faPen, faCaretDown, faCaretUp, faChevronUp, faChevronDown, faSave } from "@fortawesome/free-solid-svg-icons";
 import toast from "react-hot-toast";
+import { savePageLinks } from "@/actions/pageActions";
 
-export default function PageLinksForm({page,user}) {
-    const [links, setLinks] = useState(page.links ||[]);
+export default function PageLinksForm({ page }) {
+    const [links, setLinks] = useState(page.links || []);
+    const [menuOpen, setMenuOpen] = useState(null);
+    const [editKey, setEditKey] = useState(null);
+    const [newLinkKey, setNewLinkKey] = useState(null);
+    const [containerOpen, setContainerOpen] = useState(true); // State to track container visibility
+    const menuRef = useRef(null);
 
-    function handleLinkChange(keyOfLinkChange, prop, ev) {
-        setLinks(prev => {
-            const newLinks = [...prev];
-            newLinks.forEach((link) => {
-                if (link.key === keyOfLinkChange) {
-                    link[prop] = ev.target.value;
-                }
-            });
-            return newLinks;
-        });
-    }
-
-    async function upload(ev, callbackFn) {
-        const file = ev.target.files[0];
-        if (file) {
-            const data = new FormData();
-            data.set('file', file);
-
-            try {
-                const response = await fetch('/api/upload', {
-                    method: 'POST',
-                    body: data,
-                });
-
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(errorData.error || 'Upload failed');
-                }
-
-                const result = await response.json();
-                callbackFn(result.link); // Call the callback with the uploaded image URL
-                toast.success('Icon uploaded successfully!');
-            } catch (error) {
-                toast.error(`Upload failed: ${error.message}`);
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (menuRef.current && !menuRef.current.contains(event.target)) {
+                setMenuOpen(null);
             }
-        }
-    }
+        };
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
 
-    function handleUpload(ev, linkKey) {
-        upload(ev, (uploadedImageUrl) => {
-            setLinks(prevLinks => {
-                const newLinks = [...prevLinks];
-                newLinks.forEach((link) => {
-                    if (link.key === linkKey) {
-                        link.icon = uploadedImageUrl;
-                    }
-                });
-                return newLinks;
-            });
-        });
-    }
+    const handleLinkChange = (key, prop, value) => {
+        setLinks((prev) =>
+            prev.map((link) => (link.key === key ? { ...link, [prop]: value } : link))
+        );
+    };
 
-    function addNewLink() {
-        setLinks(prev => [
-            ...prev, 
-            {
-                key: Date.now().toString() + Math.random().toString(), // Ensure a more unique key
-                title: '',
-                subtitle: '',
-                icon: '',
-                url: ''
-            }
+    const addNewLink = () => {
+        const newKey = Date.now().toString();
+        setLinks((prev) => [
+            ...prev,
+            { key: newKey, title: "", url: "", enabled: true }
         ]);
-    }
+        setNewLinkKey(newKey);
+        setEditKey(newKey);
+    };
 
-    async function save(ev) {
-        ev.preventDefault(); // Prevent default form submission behavior
+    const toggleEnabled = (key) => {
+        setLinks((prev) =>
+            prev.map((link) =>
+                link.key === key ? { ...link, enabled: !link.enabled } : link
+            )
+        );
+    };
+
+    const saveLinks = async (ev) => {
+        ev.preventDefault();
         await savePageLinks(links);
-        toast.success('Links Added!');
-    }
+        toast.success("Links saved!");
+        window.location.reload(); 
+    };
 
-    function removeLink(linkKeyToRemove) {
-        setLinks(prevLinks => [...prevLinks.filter(link => link.key !== linkKeyToRemove)]);
-        toast.success('Link Removed!');
-    }
+    const deleteLink = (key) => {
+        setLinks((prev) => prev.filter((link) => link.key !== key));
+        toast.success("Link deleted!");
+    };
+
+    const startEditing = (key) => {
+        setEditKey(key);
+        setMenuOpen(null);
+    };
+
+    const stopEditing = () => {
+        setEditKey(null);
+        setNewLinkKey(null);
+    };
 
     return (
-        <SectionBox>
-            <form onSubmit={save} className="">
-       
-            <div className="text-center mb-4">
-    <h2 className="text-2xl font-bold text-white">Links</h2>
-    <button 
-        type="button" 
-        onClick={addNewLink} 
-        className="text-blue-500 text-lg flex gap-2 items-center cursor-pointer mx-auto mt-4">
-        <FontAwesomeIcon className="bg-blue-500 text-white p-1 rounded-full aspect-square" icon={faPlus} />
-        <span>Add new link</span>
-    </button>
-</div>
+        <div className="bg-white rounded-lg mt-6 mb-6 shadow-lg p-4  ">
+            <div className="text-left border-b-2 mb-4 flex items-center justify-between">
+                <h2 className="text-lg font-semibold text-gray-700 mb-2">Custom Links</h2>
+                <button
+                    onClick={() => setContainerOpen(!containerOpen)} // Toggle container visibility
+                    className="text-gray-600 focus:outline-none"
+                >
+                    <FontAwesomeIcon icon={containerOpen ? faChevronUp : faChevronDown} />
+                </button>
+            </div>
 
-                <div className="">
+            {containerOpen && ( // Conditional rendering based on the state of containerOpen
+                <form onSubmit={saveLinks}>
                     <ReactSortable list={links} setList={setLinks}>
-                        {links.map(l => (
-                            <div key={l.key} className="mt-8 flex gap-2 items-center">
-                                <div>
-                                    <FontAwesomeIcon className="text-white mr-2 cursor-move" icon={faGripLines} />
-                                </div>
-                                <div className="text-center">
-                                    <div className="bg-gray-300 p-4 rounded-full inline-block">
-                                        <FontAwesomeIcon icon={faLink} />
-                                    </div>
-                                    <div className="mt-2 mb-2">
-                                        {/* Assigning unique IDs to input and linking it to the label */}
-                                        <input type="file" id={'icon' + l.key} className="hidden" onChange={ev => handleUpload(ev, l.key)} />
-                                        <label htmlFor={'icon' + l.key} className="border rounded justify-center flex items-center  gap-1  p-3 mb-2 cursor-pointer">
-                                            <FontAwesomeIcon icon={faCloudArrowUp} className="mr-2" />
-                                            <span className="text-white">Change Icon</span>
-                                        </label>
-                                    </div>
-                                    
+                        {links.map((link) => (
+                            <div
+                                key={link.key}
+                                className="flex items-center justify-between bg-gray-100 rounded-lg p-4 mb-4 shadow-sm"
+                                ref={menuRef}
+                            >
+                                <div className="relative">
                                     <button
-                                        onClick={() => removeLink(l.key)}
-                                        type="button" className="rounded bg-gray-300 py-2 px-2 mb-2 h-full flex gap-1 items-center">
-                                        <FontAwesomeIcon icon={faTrash} />
-                                        <span>Remove this link</span>
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            e.preventDefault();
+                                            setMenuOpen((prev) => (prev === link.key ? null : link.key));
+                                        }}
+                                        className="text-gray-600 focus:outline-none"
+                                    >
+                                        <FontAwesomeIcon icon={faEllipsisV} />
                                     </button>
+                                    {menuOpen === link.key && (
+                                        <div className="absolute bg-white border shadow-md rounded-lg p-2 mt-2 z-10">
+                                            <button
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    startEditing(link.key);
+                                                }}
+                                                className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                                            >
+                                                <FontAwesomeIcon icon={faPen} className="mr-2" />
+                                                Edit
+                                            </button>
+                                            <button
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    deleteLink(link.key);
+                                                }}
+                                                className="block w-full text-left px-4 py-2 text-sm text-red-500 hover:bg-red-100"
+                                            >
+                                                <FontAwesomeIcon icon={faTrash} className="mr-2" />
+                                                Delete
+                                            </button>
+                                        </div>
+                                    )}
                                 </div>
-                                <div className="grow justify-center items-center ">
-                                    <label className="input-label">Title:</label>
-                                    <input value={l.title} onChange={ev => handleLinkChange(l.key, 'title', ev)} className="max-w-2xl rounded" type="text" placeholder="Title" />
-                                    <label className="input-label">Subtitle:</label>
-                                    <input value={l.subtitle} onChange={ev => handleLinkChange(l.key, 'subtitle', ev)} className="max-w-2xl" type="text" placeholder="Subtitle (optional)" />
-                                    <label className="input-label">Url:</label>
-                                    <input value={l.url} onChange={ev => handleLinkChange(l.key, 'url', ev)} className="max-w-2xl" type="text" placeholder="URL" />
-                                </div>
+
+                                {editKey === link.key || newLinkKey === link.key ? (
+                                    <div className="flex-grow flex flex-col gap-2 ml-4">
+                                        <input
+                                            type="text"
+                                            value={link.title}
+                                            onChange={(e) => handleLinkChange(link.key, "title", e.target.value)}
+                                            className="border rounded-lg p-2 text-gray-700"
+                                            placeholder="Link Title"
+                                        />
+                                        <input
+                                            type="text"
+                                            value={link.url}
+                                            onChange={(e) => handleLinkChange(link.key, "url", e.target.value)}
+                                            className="border rounded-lg p-2 text-gray-700"
+                                            placeholder="Link URL"
+                                        />
+                                        <button
+                                            type="button"
+                                            onClick={stopEditing}
+                                            className="mt-2 bg-blue-500 text-white px-4 py-1 rounded-lg shadow hover:bg-blue-600 transition"
+                                        >
+                                            Save
+                                        </button>
+                                    </div>
+                                ) : (
+                                    <div className="flex-grow ml-4">
+                                        <div className="text-gray-800 text-md font-semibold">
+                                            {link.title || "Untitled Link"}
+                                        </div>
+                                    </div>
+                                )}
+
+                                <label className="flex items-center">
+                                    <input
+                                        type="checkbox"
+                                        checked={link.enabled}
+                                        onChange={() => toggleEnabled(link.key)}
+                                        className="toggle-checkbox hidden"
+                                    />
+                                    <div
+                                        className={`toggle-label block w-12 h-6 rounded-full ${link.enabled ? "bg-purple-600" : "bg-gray-300"} relative`}
+                                    >
+                                        <span
+                                            className={`dot absolute w-4 h-4 bg-white rounded-full top-1 left-1 transition ${link.enabled ? "translate-x-6" : ""}`}
+                                        ></span>
+                                    </div>
+                                </label>
                             </div>
                         ))}
                     </ReactSortable>
-                </div>
-                <div className=" pt-4 mt-4 max-w-xs mx-auto">
-                    <SubmitButton>
-                        <FontAwesomeIcon icon={faSave} />
-                        <span>Save</span>
-                    </SubmitButton>
-                </div>
-            </form>
-        </SectionBox>
+
+                    <div className="text-center">
+                        <button
+                            type="button"
+                            onClick={addNewLink}
+                            className="text-blue-500 hover:text-blue-600 font-semibold"
+                        >
+                            + Add New Link
+                        </button>
+                    </div>
+
+                    <div className="mt-6 text-center">
+                        <button
+                            type="submit"
+                            className="bg-blue-500 text-white px-6 py-2 rounded-lg shadow hover:bg-blue-600 transition"
+                        >
+                        
+                            <span>Save</span>
+                        </button>
+                    </div>
+                </form>
+            )}
+        </div>
     );
 }

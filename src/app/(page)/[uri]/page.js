@@ -44,20 +44,20 @@ export default async function UserPage({ params }) {
         await Event.create({ type: 'view', uri: uri, page: uri });
 
         return (
-            <div className="bg-[#0d0d0d] text-white min-h-screen pb-4">
-                <div className="aspect-square mt-20 w-48 h-48 mx-auto relative -top-16 -mb-12">
+            <div className="bg-[#0d0d0d] text-white pt-4 min-h-screen pb-4">
+                <div className="aspect-square  w-48 h-48 mx-auto relative  mb-4">
                     <Image src={user.image} className="rounded-full w-full h-full object-cover" width={256} height={256} alt={'avatar'} />
                 </div>
 
                 <h2 className="text-2xl text-center mb-1">{page.displayName}</h2>
-                <h3 className="text-md flex gap-2 justify-center items-center">
+                {/* <h3 className="text-md flex gap-2 justify-center items-center">
                     <FontAwesomeIcon className="h-4" icon={faLocationDot} />
                     {page.location}
-                </h3>
-                <div className="max-w-lg mx-auto text-center my-2">
+                </h3> */}
+                <div className="max-w-lg mx-auto text-center mt-2">
                     <p className="text-lg ">{page.bio}</p>
                 </div>
-                <div className="flex gap-2 justify-center mt-4 pb-4">
+                <div className="flex gap-2 justify-center md:-mt-4 pb-4">
                     {Object.keys(page.buttons).map(buttonKey => (
                         <Link key={buttonKey} target="_blank" href={buttonLink(buttonKey, page.buttons[buttonKey])}
                             className="rounded-full bg-white text-blue-950 p-2 flex items-center justify-center">

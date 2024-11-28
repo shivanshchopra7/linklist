@@ -51,7 +51,7 @@ export default async function AnalyticsPage() {
         type: 'click'
     })
     return (
-        <div>
+        <div className="mt-8 px-4">
             <SectionBox>
                 <h2 className="text-xl mb-6 text-center font-semibold">Views</h2>
                 <Chart data={groupedViews.map(o => ({
@@ -74,14 +74,14 @@ export default async function AnalyticsPage() {
 <FontAwesomeIcon icon={faLink} />
             </div>
             <div className="grow">
-            <h3>{link.title || 'No title'}</h3>
-            <p className="text-gray-500">{link.subtitle || 'No subtitle'}</p>
-            <a target="_blank" href="{link.url}" className="text-blue-500 text-m">{link.url}</a>
+            <h3 className="text-black">{link.title || 'No title'}</h3>
+            <p className="text-black">{link.subtitle || 'No subtitle'}</p>
+            <a target="_blank" href="{link.url}" className="text-blue-500">{link.url}</a>
             </div>
           
             <div className="text-center">
 <div className="border rounded-md p-2 ">
-<div className="text-lg">
+<div className="text-lg text-black">
 {clicks.filter(c => c.uri === link.url && isToday(c.createdAt) ).length} 
 </div>
 <div className="text-gray-400 text-xs uppercase font-bold">Clicks today</div> 
@@ -91,7 +91,7 @@ export default async function AnalyticsPage() {
 </div>
 <div className="text-center">
 <div className="border rounded-md p-2 ">
-<div className="text-lg">
+<div className="text-lg text-black">
  {clicks.filter(c => c.uri === link.url).length}
  </div>
  <div className="text-gray-400 text-xs uppercase font-bold">Clicks all time</div>

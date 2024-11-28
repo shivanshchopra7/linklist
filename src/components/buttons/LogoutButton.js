@@ -15,7 +15,7 @@ import { signOut } from "next-auth/react";
       {iconLeft && (
         <FontAwesomeIcon icon={faRightFromBracket} className={iconClasses}  />
       )}
-            <span>Sign Out</span>
+            <span>Log Out</span>
             {!iconLeft && (
         <FontAwesomeIcon icon={faRightFromBracket} className={iconClasses} />
       )}
