@@ -57,7 +57,7 @@ export default async function UserPage({ params }) {
                 <div className="max-w-lg mx-auto text-center mt-2">
                     <p className="text-lg ">{page.bio}</p>
                 </div>
-                <div className="flex gap-2 justify-center md:-mt-4 pb-4">
+                <div className="flex gap-2 justify-center md:mt-4 mt-2 pb-4">
                     {Object.keys(page.buttons).map(buttonKey => (
                         <Link key={buttonKey} target="_blank" href={buttonLink(buttonKey, page.buttons[buttonKey])}
                             className="rounded-full bg-white text-blue-950 p-2 flex items-center justify-center">
