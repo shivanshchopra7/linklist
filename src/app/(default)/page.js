@@ -11,7 +11,7 @@ export default async function Home() {
 
   return (
     <main className="bg-[#0D0D0D]">
-      <section className=" p-4 pb-24 pt-16">
+      <section className=" p-4 md:pb-24 pt-16">
         <div className="mb-16">
           <h1 className="text-5xl font-bold mb-4 text-white text-center">
             One link,{" "}
@@ -27,9 +27,9 @@ export default async function Home() {
         <HeroForm user={session?.user} />
 
         {/* Left-aligned grid section */}
-        <section className="mt-24 w-full px-32 pb-4 ">
+        <section className="mt-24 w-full  md:px-32 pb-4 ">
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-24 text-balance">
-            <div className="   text-left text-balance">
+            <div className="  text-center md:text-left text-balance">
               <h1 className="text-xl mb-2 ">👥</h1>
               <h3 className="text-lg font-semibold text-white mb-1">
                 Turn Your Followers <br /> into Customers
@@ -38,7 +38,7 @@ export default async function Home() {
                 Drive traffic from your social handles to  your website, online store, latest blog <br /> post, or anywhere you want.
               </p>
             </div>
-            <div className="  text-left">
+            <div className=" text-center md:text-left">
             <h1 className="text-xl mb-2">📈</h1>
               <h3 className="text-lg w-full font-semibold text-white mb-1">
                 Grow Your Following on Every Platform
@@ -47,7 +47,7 @@ export default async function Home() {
                 Help followers discover your featured content, social profiles, and mailing list to engage on every channel.
               </p>
             </div>
-            <div className="  text-left text-balance">
+            <div className=" text-center md:text-left text-balance">
             <h1 className="text-xl mb-2">🔄</h1>
               <h3 className="text-lg font-semibold text-white mb-1">
                 Automate Dropping Link on Follower Interactions
@@ -56,7 +56,7 @@ export default async function Home() {
                 Automatically share your link when user comments, send message or even <br /> when  they follow.
               </p>
             </div>
-            <div className="  text-left">
+            <div className=" text-center md:text-left">
             <h1 className="text-xl mb-2 ">🔗</h1>
               <h3 className="text-lg font-semibold text-white mb-1">
                 Easily Manage All Your Links in One Place

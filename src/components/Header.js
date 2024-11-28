@@ -10,7 +10,7 @@ export default async function Header() {
 
     return (
         <header className=" py-4 w-full bg-[#0D0D0D]">
-        <div className="max-w-full items-center  flex justify-between mx-auto px-32 ">
+        <div className="max-w-full items-center  flex justify-between mx-auto md:px-32 ">
         <div className="flex items-center gap-6 px-8">
 <Link href={'/'} className="font-bold flex items-center gap-2">
 

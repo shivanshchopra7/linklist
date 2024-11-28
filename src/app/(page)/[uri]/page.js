@@ -60,7 +60,7 @@ export default async function UserPage({ params }) {
                 <div className="flex gap-2 justify-center md:mt-4 mt-2 pb-4">
                     {Object.keys(page.buttons).map(buttonKey => (
                         <Link key={buttonKey} target="_blank" href={buttonLink(buttonKey, page.buttons[buttonKey])}
-                            className="rounded-full bg-white text-blue-950 p-2 flex items-center justify-center">
+                            className="rounded-full  text-blue-950 p-2 flex items-center justify-center">
                             <FontAwesomeIcon className="w-6 h-6" icon={buttonIcons[buttonKey]} />
                         </Link>
                     ))}
