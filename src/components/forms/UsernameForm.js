@@ -46,7 +46,7 @@ export default function UsernameForm({ desiredUsername }) {
                     </div>
                 )}
 
-                <SubmitButton className="mt-6" disabled={isLoading}> {/* Disable button when loading */}
+                <SubmitButton className="mt-6 flex mx-auto" disabled={isLoading}> {/* Disable button when loading */}
                     <span>{isLoading ? 'Checking...' : 'Claim username'}</span>
                     <RightIcon />
                 </SubmitButton>
