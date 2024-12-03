@@ -10,7 +10,7 @@ export default async function Home() {
   const session = await getServerSession(authOptions);
 
   return (
-    <main className="bg-[#0D0D0D]">
+    <main className="bg-[#0D0D0D] md:h-full lg:h-screen">
       <section className=" p-4 md:pb-24 pt-16">
         <div className="mb-16">
           <h1 className="text-5xl font-bold mb-4 text-white text-center">
