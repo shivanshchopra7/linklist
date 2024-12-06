@@ -40,7 +40,7 @@ console.log(input.value);
       <div className="flex justify-center items-center  ">
       <form
         onSubmit={handleSubmit}
-        className="flex items-center max-w-lg w-full rounded-full shadow-xl bg-black  shadow-purple-700/40 py-3 px-8"
+        className="flex items-center max-w-lg w-full rounded-full shadow-xl bg-black  shadow-purple-700/10 py-3 px-8"
         style={{
           boxShadow: '0px 0px 30px 15px rgba(128, 0, 128, 0.5)'  
         }}
@@ -55,7 +55,7 @@ console.log(input.value);
       
         <button
           type="submit"
-          className="bg-purple-900 text-white font-semibold rounded-full py-2 px-8 ml-4 text-md hover:bg-purple-800 transition-colors duration-200"
+          className="bg-[#7511F5] text-white font-semibold rounded-full py-2 px-8 ml-4 text-md hover:bg-[#7511F8] transition-colors duration-200"
         >
           Claim
         </button>

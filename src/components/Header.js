@@ -2,6 +2,7 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { getServerSession } from "next-auth";
 import Image from "next/image";
 import Link from "next/link";
+import head from '../assets/head.png';
 import LogoutButton from "./buttons/LogoutButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLink } from "@fortawesome/free-solid-svg-icons";
@@ -13,10 +14,8 @@ export default async function Header() {
         <div className="max-w-full items-center  flex justify-between mx-auto md:px-32 px-8">
         <div className="flex items-center gap-6 md:px-8">
 <Link href={'/'} className="font-bold flex items-center gap-2">
-
-<span class=" font-bold text-white text-2xl md:px-2 lowercase tracking-tight transform -rotate-3">
-    droppp.link
-  </span></Link>
+<Image src={head} width={150} height={50} alt={'Logo'} />
+</Link>
   {/* <nav className="flex gap-4 text-slate-500 text-sm items-center">
     <Link href={'/about'}>About</Link>
     <Link href={'/pricing'}>Pricing</Link>

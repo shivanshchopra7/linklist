@@ -10,17 +10,32 @@ export default async function Home() {
   const session = await getServerSession(authOptions);
 
   return (
-    <main className="bg-[#0D0D0D] md:h-full lg:h-screen">
-      <section className=" p-4 md:pb-24 pt-16">
+    <main className="bg-[#0D0D0D] h-full lg:h-screen">
+      <section className=" p-4  pt-16">
         <div className="mb-16">
-          <h1 className="text-5xl font-bold mb-4 text-white text-center">
-            One link,{" "}
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#ff99cc] to-[#a05bff]">
-              unlimited possibilities.
-            </span>
-          </h1>
-          <h2 className="text-lg text-white text-center">
-            Simply put, it&apos;s the coolest link in bio you&apos;ll ever drop as a creator ✨
+        <h1 className="hidden md:block text-5xl font-bold mb-4 text-white text-center">
+  <span className="bg-clip-text text-transparent bg-gradient-to-r pb-4 from-[#ff99cc] to-[#a05bff]">
+    Powerful link-in-bio{" "}
+  </span>
+  <br />
+  for Creators & Brands
+</h1>
+
+<h1 className="md:hidden text-5xl font-bold mb-4 text-white text-center">
+  <span className="bg-clip-text text-transparent bg-gradient-to-r pb-4 from-[#ff99cc] to-[#a05bff]">
+    Powerful <br /> link-in-bio{" "}
+  </span>
+  <br />
+  for Creators <br /> & Brands
+</h1>
+
+
+          <h2 className="hidden md:block text-md text-white text-center">
+            Simply put, it&apos;s the coolest link in bio  to grow and earn more ✨
+          </h2>
+          
+          <h2 className=" md:hidden text-md text-white text-center">
+            Simply put, it&apos;s the coolest link in bio <br /> to grow and earn more ✨
           </h2>
         </div>
 
