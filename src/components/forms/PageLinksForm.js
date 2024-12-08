@@ -25,10 +25,18 @@ export default function PageLinksForm({ page }) {
     }, []);
 
     const handleLinkChange = (key, prop, value) => {
+        if (prop === 'url') {
+            // Check if the user has removed the https:// prefix, and prevent it from being prepended again
+            if (value && !/^https?:\/\//i.test(value) && !value.startsWith('https://')) {
+                value = 'https://' + value; // Prepend 'https://' only if not already present
+            }
+        }
         setLinks((prev) =>
             prev.map((link) => (link.key === key ? { ...link, [prop]: value } : link))
         );
     };
+    
+    
 
     const addNewLink = () => {
         const newKey = Date.now().toString();
@@ -167,13 +175,13 @@ export default function PageLinksForm({ page }) {
                                         onChange={() => toggleEnabled(link.key)}
                                         className="toggle-checkbox hidden"
                                     />
-                                    <div
+                                    {/* <div
                                         className={`toggle-label block w-12 h-6 rounded-full ${link.enabled ? "bg-purple-600" : "bg-gray-300"} relative`}
                                     >
                                         <span
                                             className={`dot absolute w-4 h-4 bg-white rounded-full top-1 left-1 transition ${link.enabled ? "translate-x-6" : ""}`}
                                         ></span>
-                                    </div>
+                                    </div> */}
                                 </label>
                             </div>
                         ))}

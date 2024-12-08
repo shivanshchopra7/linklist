@@ -99,6 +99,20 @@ export default function PageSettingsForm({ page, user }) {
 
           {/* Input Fields */}
           <div className="mt-6 space-y-4">
+
+
+
+          <div className="mt-4">
+  <p className="text-center bg-blue-100 text-blue-700 font-medium rounded-full px-4 py-1 inline-block shadow transition-transform duration-300 hover:scale-105">
+    @{page.uri}
+  </p>
+  
+</div>
+
+
+
+
+
             <div>
               <input
                 className=" text-left text-gray-700 border border-gray-300 rounded-lg py-2 px-2 focus:outline-none focus:ring-2 focus:ring-blue-500"

@@ -23,81 +23,83 @@ export const allButtons = [
 ];
 
 export default function PageButtonsForm({ user, page }) {
-    // State for toggling the container visibility
     const [isOpen, setIsOpen] = useState(true);
-
-    // Ensure page.buttons exists before trying to access it
     const pageButtons = page?.buttons || {};
     const pageSaveButtonKeys = Object.keys(pageButtons);
-    const pageSaveButtonKeysInfo = pageSaveButtonKeys.map((key) =>
-        allButtons.find((b) => b.key === key)
-    );
+    const pageSaveButtonKeysInfo = pageSaveButtonKeys.map(key => allButtons.find(b => b.key === key));
 
     const [activeButtons, setActiveButtons] = useState(pageSaveButtonKeysInfo);
 
     // Handle adding a new button to the profile
     function addButtonToProfile(button) {
-        setActiveButtons((prevButtons) => [...prevButtons, button]);
+        setActiveButtons(prev => [...prev, button]);
     }
 
-    const availableButtons = allButtons.filter(
-        (b1) => !activeButtons.find((b2) => b1.key === b2.key)
-    );
+    // Filter out already active buttons
+    const availableButtons = allButtons.filter(b => !activeButtons.find(active => active.key === b.key));
 
     // Save button data
     async function saveButtons(formData) {
         await savePageButtons(formData);
         toast.success('Settings saved!');
-        window.location.reload(); 
+        window.location.reload();
     }
 
     // Remove a button from the active list
     function removeButton({ key: keyToRemove }) {
-        setActiveButtons((prevButtons) => {
-            return prevButtons.filter((b) => b.key !== keyToRemove);
-        });
+        setActiveButtons(prev => prev.filter(b => b.key !== keyToRemove));
     }
 
     // Function to handle the link input changes and format the links properly
     function handleLinkChange(event, platform) {
-      let { value } = event.target;
-      value = value.trim();  // Trim any spaces
-  
-      let fullLink = '';
-      switch (platform.key) {
-          case 'whatsapp':
-              fullLink = `https://wa.me/${value}`;
-              break;
-          case 'instagram':
-              fullLink = `https://www.instagram.com/${value}`;
-              break;
-          case 'facebook':
-              fullLink = `https://www.facebook.com/${value}`;
-              break;
-          case 'linkedin':
-              fullLink = `https://www.linkedin.com/in/${value}`;
-              break;
-          case 'discord':
-              fullLink = `https://discord.com/users/${value}`;
-              break;
-          case 'youtube':
-              fullLink = `https://www.youtube.com/channel/${value}`;
-              break;
-          case 'github':
-              fullLink = `https://github.com/${value}`;
-              break;
-          case 'telegram':
-              fullLink = `https://t.me/${value}`;
-              break;
-          default:
-              fullLink = value;
-      }
-      console.log(`Full link for ${platform.label}: ${fullLink}`);
-      return fullLink; 
+        let { value } = event.target;
+        value = value.trim(); // Trim any spaces
+        let fullLink = '';
+    
+        // Define base URLs for each platform
+        const baseUrls = {
+            'whatsapp': 'https://api.whatsapp.com/send/?phone=',
+            'instagram': 'https://www.instagram.com/',
+            'facebook': 'https://www.facebook.com/',
+            'linkedin': 'https://www.linkedin.com/in/',
+            'discord': 'https://discord.com/users/',
+            'youtube': 'https://www.youtube.com/channel/',
+            'github': 'https://github.com/',
+            'telegram': 'https://t.me/',
+        };
+    
+        const baseUrl = baseUrls[platform.key] || '';
+    
+        // For WhatsApp, ensure the number is correctly formatted
+        if (platform.key === 'whatsapp') {
+            // Ensure the number starts with the correct country code (without spaces)
+            if (!value.startsWith('+')) {
+                value = `+${value}`;
+            }
+            // Remove any non-numeric characters for WhatsApp numbers
+            value = value.replace(/\D/g, ''); // This will remove any non-digit characters
+            // Use the WhatsApp send link format
+            fullLink = baseUrl + value + '&text=&type=phone_number&app_absent=0';
+        } else {
+            // For other platforms, handle the URLs normally
+            if (value && !value.startsWith(baseUrl)) {
+                fullLink = baseUrl + value;  // Only prepend base URL if it's not already present
+            } else {
+                fullLink = value;  // Use the input value if it already contains the base URL
+            }
+        }
+    
+        event.target.value = fullLink;
+        console.log(`Full link for ${platform.label}: ${fullLink}`);
+        return fullLink;
     }
+    
+
+    
+    
 
     return (
-        <div className="bg-white rounded-lg mt-16  shadow-lg p-4  ">
+        <div className="bg-white rounded-lg mt-16 shadow-lg p-4">
             <form action={saveButtons}>
                 {/* Section Title with Dropdown Icon */}
                 <div className="text-left border-b-2 mb-4 flex items-center justify-between">
@@ -121,7 +123,7 @@ export default function PageButtonsForm({ user, page }) {
                             handle=".handle"
                             animation={150}
                         >
-                            {activeButtons.map((b) => (
+                            {activeButtons.map(b => (
                                 <div key={b.key} className="flex items-center gap-4 mb-4 border-b pb-2">
                                     <div className="flex items-center gap-2 w-1/3">
                                         <FontAwesomeIcon icon={faGripLines} className="cursor-pointer text-gray-400 handle" />
@@ -134,12 +136,10 @@ export default function PageButtonsForm({ user, page }) {
                                         className="flex-grow rounded border border-gray-300 text-gray-700"
                                         defaultValue={pageButtons[b.key] || ''}
                                         type="text"
-                                        onBlur={(e) => {
-                                            const fullLink = handleLinkChange(e, b);
-                                        }}
+                                        onBlur={(e) => handleLinkChange(e, b)}
                                     />
                                     <button
-                                        onClick={() => removeButton(b)}
+                                        onClick={(e) => { e.preventDefault(); removeButton(b); }}
                                         type="button"
                                         className="bg-red-500 text-white p-2 rounded hover:bg-red-600"
                                     >
@@ -151,7 +151,7 @@ export default function PageButtonsForm({ user, page }) {
 
                         {/* Available Buttons */}
                         <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 mt-6">
-                            {availableButtons.map((b) => (
+                            {availableButtons.map(b => (
                                 <button
                                     type="button"
                                     key={b.key}
@@ -168,7 +168,6 @@ export default function PageButtonsForm({ user, page }) {
                         {/* Save Button */}
                         <div className="mt-8 flex justify-center">
                             <SubmitButton>
-                            
                                 <span>Save</span>
                             </SubmitButton>
                         </div>

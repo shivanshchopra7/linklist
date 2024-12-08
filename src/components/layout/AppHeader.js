@@ -71,13 +71,13 @@ export default function AppHeader({ session, page }) {
 
       {/* Right: Save and Publish + Profile Section */}
       <div className="flex items-center gap-4">
-        {/* Save and Publish Button */}
-        <button
+       
+        {/* <button
           onClick={saveButtons}
           className="bg-[#9333EA] hover:bg-purple-700 text-white px-4 py-2 rounded-3xl font-medium"
         >
           Save and Publish
-        </button>
+        </button> */}
 
         {/* Profile Section */}
         {session && (
