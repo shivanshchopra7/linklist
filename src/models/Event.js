@@ -1,9 +1,13 @@
 import { Schema, model, models } from "mongoose";
 
-const EventSchema = new Schema({
+// Define the schema
+const EventSchema = new Schema(
+  {
     type: { type: String, required: true }, // "view" or "click"
     uri: { type: String, required: true },  // Page URL
+  },
+  { timestamps: true }
+);
 
-}, { timestamps: true });
-
-export const Event = models.Event || model("Event", EventSchema);
+// Safeguard against model overwrite errors
+export const Event = models?.Event || model("Event", EventSchema);
