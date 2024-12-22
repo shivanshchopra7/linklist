@@ -145,6 +145,13 @@ export default function PageLinksForm({ page }) {
                                             className="border rounded-lg p-2 text-gray-700"
                                             placeholder="Link Title"
                                         />
+                                         <input
+                                            type="text"
+                                            value={link.subtitle}
+                                            onChange={(e) => handleLinkChange(link.key, "subtitle", e.target.value)}
+                                            className="border rounded-lg p-2 text-gray-700"
+                                            placeholder="Link Subtitle"
+                                        />
                                         <input
                                             type="text"
                                             value={link.url}
