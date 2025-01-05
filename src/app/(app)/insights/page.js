@@ -96,7 +96,7 @@ const InsightsPage = async () => {
         </div>
   
         {/* User Data Table */}
-        <div className="bg-white shadow-md w-[990px] rounded-lg p-4">
+        {/* <div className="bg-white shadow-md w-[990px] rounded-lg p-4">
           
           <table className="table-auto w-full border-collapse border border-gray-300">
             <thead>
@@ -118,7 +118,7 @@ const InsightsPage = async () => {
               ))}
             </tbody>
           </table>
-        </div>
+        </div> */}
       </div>
   
       {/* Right Side (Graphs Section) */}

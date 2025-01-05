@@ -11,7 +11,21 @@ import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 
 export default async function AnalyticsPage() {
-    await mongoose.connect(process.env.MONGODB_URI);
+    // MongoDB Connection with logging
+    try {
+        await mongoose.connect(process.env.MONGODB_URI);
+        console.log("MongoDB connected successfully");
+    } catch (error) {
+        console.error("MongoDB connection error:", error);
+        return (
+            <div>
+                <SectionBox>
+                    <h2 className="text-xl text-center font-semibold text-red-500">Database connection failed</h2>
+                </SectionBox>
+            </div>
+        );
+    }
+
     const session = await getServerSession(authOptions);
     if (!session) {
         return redirect('/');
@@ -20,6 +34,7 @@ export default async function AnalyticsPage() {
     const page = await Page.findOne({ owner: session?.user?.email });
 
     if (!page) {
+        console.log("No page found for the user:", session?.user?.email);
         return (
             <div>
                 <SectionBox>
@@ -29,36 +44,51 @@ export default async function AnalyticsPage() {
         );
     }
 
+    console.log("Page found:", page);
+
     // Fetch grouped views
-    const groupedViews = await Event.aggregate([
-        { $match: { type: 'view', uri: page.uri } },
-        {
-            $group: {
-                _id: {
-                    $dateToString: {
-                        date: "$createdAt",
-                        format: "%Y-%m-%d"
-                    }
-                },
-                count: { $sum: 1 }
-            }
-        },
-        { $sort: { _id: 1 } }
-    ]);
+    let groupedViews = [];
+    try {
+        groupedViews = await Event.aggregate([
+            { $match: { type: 'view', uri: page.uri } },
+            {
+                $group: {
+                    _id: {
+                        $dateToString: {
+                            date: "$createdAt",
+                            format: "%Y-%m-%d"
+                        }
+                    },
+                    count: { $sum: 1 }
+                }
+            },
+            { $sort: { _id: 1 } }
+        ]);
+        console.log("Grouped Views:", groupedViews);
+    } catch (error) {
+        console.error("Error fetching grouped views:", error);
+    }
 
     // Fetch all clicks related to page links
-    const clicks = await Event.find({
-        type: 'click',
-        uri: { $in: page.links.map(link => link.url) }
-    });
+    let clicks = [];
+    try {
+        clicks = await Event.find({
+            type: 'click',
+            uri: { $in: page.links.map(link => link.url) }
+        });
+        console.log("Clicks Data:", clicks);
+    } catch (error) {
+        console.error("Error fetching clicks data:", error);
+    }
 
     // Normalize URLs for comparison
     const normalizeUrl = (url) => {
         try {
             const parsed = new URL(url);
-            return `${parsed.hostname}${parsed.pathname}`;
-        } catch {
-            return url; // Fallback for invalid URLs
+            return `${parsed.hostname}${parsed.pathname}`.replace(/\/$/, ""); // Remove trailing slash
+        } catch (err) {
+            console.error("Invalid URL:", url, err);
+            return url;
         }
     };
 

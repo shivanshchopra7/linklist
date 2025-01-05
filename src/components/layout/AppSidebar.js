@@ -20,7 +20,7 @@ export default function AppSidebar() {
                 {/* <FontAwesomeIcon fixedWidth={true} icon={faChartLine} className="h-6 w-6" /> */}
                 <span className="font-semibold">Analytics</span>
             </Link>
-            <Link href={'/insights'} className={"flex gap-4 p-2 px-4 rounded-full md:hidden" + (path === '/analytics' ? 'text-blue-500 font-bold border bg-white/20' : 'text-black hover:text-blue-500')}>
+            <Link href={'/insights'} className={"flex gap-4 p-2 px-4 rounded-full md:hidden" + (path === '/insights' ? 'text-blue-500 font-bold border bg-white/20' : 'text-black hover:text-blue-500')}>
                 {/* <FontAwesomeIcon fixedWidth={true} icon={faChartLine} className="h-6 w-6" /> */}
                 <span className="font-semibold">Insights</span>
             </Link>
